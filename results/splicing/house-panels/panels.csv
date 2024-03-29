@@ -1,0 +1,10 @@
+name,xmin,ymin,xmax,ymax
+panel-0.png,0,0,500,500
+panel-1.png,400,0,900,500
+panel-2.png,589,0,1089,500
+panel-3.png,0,400,500,900
+panel-4.png,400,400,900,900
+panel-5.png,589,400,1089,900
+panel-6.png,0,650,500,1150
+panel-7.png,400,650,900,1150
+panel-8.png,589,650,1089,1150
