@@ -1,0 +1,13 @@
+opencv-python
+scikit-image 
+scipy
+matplotlib
+Pillow
+pandas
+lmdb
+nltk
+natsort
+networkx
+bs4
+lxml
+albumentations
