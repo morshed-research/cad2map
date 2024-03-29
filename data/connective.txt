@@ -1,0 +1,7 @@
+hall
+hallway
+walkway
+corridor
+lounge
+stairs
+entrance
