@@ -82,10 +82,8 @@ def interpret_labels(opt, input_image):
             # print(f'{pred:25s}\t {confidence_score:0.4f}')
             return pred, confidence_score
 
-def prep_read_labels(transformation, feature_extraction, sequence_modeling, prediction, image_folder, 
-saved_model):
+def prep_read_labels(transformation, feature_extraction, sequence_modeling, prediction, saved_model):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
     parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
     parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
@@ -110,7 +108,7 @@ saved_model):
 
     opt = parser.parse_args(["--Transformation", transformation, "--FeatureExtraction", feature_extraction,
                              "--SequenceModeling", sequence_modeling, "--Prediction", prediction,
-                             "--image_folder", image_folder, "--saved_model", saved_model])
+                             "--saved_model", saved_model])
 
     """ vocab / character number configuration """
     if opt.sensitive:
