@@ -5,9 +5,9 @@ import pandas as pd
 import os
 import cv2
 
-from .labels.bboxes import get_bboxes
-from .labels.crop_image import generate_image
-from .labels.read import prep_read_labels, interpret_labels
+from .label_model.bboxes import get_bboxes
+from .label_model.crop_image import generate_image
+from .label_model.read import prep_read_labels, interpret_labels
 
 from utils.graph import *
 
