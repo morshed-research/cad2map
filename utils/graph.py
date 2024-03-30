@@ -160,8 +160,11 @@ class graph():
         (required)
     - label_it: include node area_labels on plot, bool
         (default True)
+
+    returns
+        None
     """
-    def draw_G(self, image_path, save_path, label_it=True):
+    def draw(self, image_path, save_path, label_it=True):
         pos = {} # node coordinates
         colour = [] # node colours
         labeldict = {} # node labels
