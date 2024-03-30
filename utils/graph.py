@@ -12,10 +12,10 @@ node_area_types = ["area", "door", "connective"]
 Class for representing a node in our graph
 
 properties
-- node_id: id of node in the graph
-- area_label: semantic name for node in graph's map
-- coordinates: coordinate of node in graph's map
-- type: type of node out of area, door and connective
+- node_id: id of node in the graph, int
+- area_label: semantic name for node in graph's map, str
+- coordinates: coordinate of node in graph's map, int * int
+- type: type of node out of area, door and connective, str
 
 create instance 
 - node(id, area: default N/A, coordinate: default (-1,-1), type: default 'area')
@@ -117,7 +117,7 @@ Class for representing our graph (for our map)
 
 properties
 - networkx graph: underlying graph structure to store nodes & edges
-- next_id: global id count for adding nodes
+- next_id: global id count for adding nodes, int
 
 create instance
 - graph()
