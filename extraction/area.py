@@ -59,7 +59,7 @@ def get_rooms(image_path: str,
             pred, score = interpret_labels(opt, img) # get label inference
             df.loc[i] = [bboxes[i], pred, score]
 
-    return df
+    return df.reset_index(drop=True)
 
 """
 creates nodes based on all bounding boxes in the input dataframe
