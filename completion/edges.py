@@ -37,9 +37,10 @@ def door_to_connective(G):
             distances[dist] = n
         
         # add edge to closest
-        key = min(distances.keys())
-        closest = distances[key]
-        G.nx_graph.add_edge(d, closest)
+        if len(distances) > 0:
+            key = min(distances.keys())
+            closest = distances[key]
+            G.nx_graph.add_edge(d, closest)
     
     return G
 
