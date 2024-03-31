@@ -1,5 +1,5 @@
 name,xmin,ymin,xmax,ymax
-data/results/splicing/cmuq-panels/panel-36.png,0,2000,1000,3000
-data/results/splicing/cmuq-panels/panel-37.png,500,2000,1500,3000
-data/results/splicing/cmuq-panels/panel-38.png,1000,2000,2000,3000
-data/results/splicing/cmuq-panels/panel-39.png,1500,2000,2500,3000
+data/cmuq-panels/panel-36.png,0,2000,1000,3000
+data/cmuq-panels/panel-37.png,500,2000,1500,3000
+data/cmuq-panels/panel-38.png,1000,2000,2000,3000
+data/cmuq-panels/panel-39.png,1500,2000,2500,3000
