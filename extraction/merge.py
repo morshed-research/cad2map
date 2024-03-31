@@ -109,9 +109,9 @@ def merge_labels(G):
 
                 # only merge nodes if combined label in connective list
                 new_label = n1.area_label + n2.area_label
-                if new_label in label_list().all:
+                if new_label in label_list().all or n2.area_label == "room":
                     n1.coordinates = center
-                    n1.area_label = select_label(n1.area_label, n2.area_label)
+                    n1.area_label = new_label
 
                     rm.add(n2) 
 
@@ -123,3 +123,21 @@ def merge_labels(G):
     # update id accordingly, so new nodes added after even merged ones
     new_G.next_id = G.next_id
     return new_G
+
+"""
+Takes the nodes in G, scales their coordinates by x + xmin, y + ymin
+and then adds each of these into the given global graph
+
+parameters:
+
+"""
+def scale_nodes(G, global_graph, xmin, ymin):
+    for n in G.nx_graph:
+        (x, y) = n.coordinates
+
+        n.set_coordinates(x + xmin, y + ymin)
+        n.node_id = global_graph.next_id
+
+        global_graph.add_node(n)
+
+    return global_graph
