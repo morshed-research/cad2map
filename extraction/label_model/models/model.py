@@ -18,10 +18,10 @@ sys.path.append('../')
 
 import torch.nn as nn
 
-from modules.transformation import TPS_SpatialTransformerNetwork
-from modules.feature_extraction import VGG_FeatureExtractor, RCNN_FeatureExtractor, ResNet_FeatureExtractor
-from modules.sequence_modeling import BidirectionalLSTM
-from modules.prediction import Attention
+from .deeptext.transformation import TPS_SpatialTransformerNetwork
+from .deeptext.feature_extraction import VGG_FeatureExtractor, RCNN_FeatureExtractor, ResNet_FeatureExtractor
+from .deeptext.sequence_modeling import BidirectionalLSTM
+from .deeptext.prediction import Attention
 
 
 class Model(nn.Module):

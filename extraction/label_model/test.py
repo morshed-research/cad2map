@@ -21,9 +21,9 @@ from PIL import Image
 import cv2
 from skimage import io
 import numpy as np
-import modules.craft_utils as craft_utils
-from utils import imgproc
-import modules.file_utils as file_utils
+from .modules import craft_utils
+from .modules import imgproc
+from .modules import file_utils
 import json
 import zipfile
 
