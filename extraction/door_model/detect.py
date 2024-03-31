@@ -123,23 +123,16 @@ def plot_image(img, boxes, scores, labels, dataset, save_path=None):
     plt.show()
 
 """
-performs inference on image at given location and returns a dataframe of all found doors
+sets up detection model to perform bounding box detection with
 
 parameters
-- image_path: location of image to infer on, str
+- weights_pth: location to pretrained model weights, str
     (required)
-- weights: location to pretrained model weights, str
-    (default '../model_weights/door_mdl_32.pth')
-- thresh: threshold of confidence to consider inference valid, float
-    (default 0.0)
 
-returns 
-    dataframe of door bounding boxes with columns 
-    'xmin' 'ymin' 'xmax' 'ymax', pd.DataFrame
+returns
+    FasterRCNN model, from pytorch
 """
-def door_boxes(image_path, weights_pth=root + "model_weights/door_mdl_32.pth", 
-               thresh=0):
-    crowdai = ["Background", "Door"]
+def detection_model(weights_pth):
     num_classes = 2  # 1 classes + background
 
     # set up FasterRCNN model
@@ -152,9 +145,4 @@ def door_boxes(image_path, weights_pth=root + "model_weights/door_mdl_32.pth",
     checkpoint = torch.load(weights_pth, map_location=device)
     model.load_state_dict(checkpoint['model_state_dict'])
 
-    # transform and infer
-    img = img_transform(cv2.imread(image_path))
-    boxes, scores, labels = inference(img, model, detection_threshold=thresh)
-
-    # make dataframe from found boxes
-    return pd.DataFrame(boxes, columns=["xmin","ymin","xmax","ymax"])
+    return model
