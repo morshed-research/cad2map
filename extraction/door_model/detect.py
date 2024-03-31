@@ -67,7 +67,7 @@ def inference(img, model, detection_threshold=0.00):
 
     return boxes, scores, labels
 
-'''
+"""
 Function that draws the BBoxes, scores, and labels on the image.
 
 inputs:
@@ -76,7 +76,7 @@ inputs:
   scores: list of conf-scores (Format [N] => N times confidence-score between 0 and 1)
   labels: list of class-prediction (Format [N] => N times an number between 0 and _num_classes-1)
   dataset: list of all classes e.g. ["background", "class1", "class2", ..., "classN"] => Format [N_classes]
-'''
+"""
 def plot_image(img, boxes, scores, labels, dataset, save_path=None):
     cmap = plt.get_cmap("tab20b")
     class_labels = np.array(dataset)
