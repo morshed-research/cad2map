@@ -190,13 +190,15 @@ parameters
     (default 0.2)
 - size: width and height of each slice, int
     (default 250)
-- name: prefix for slice image file names, str
+- name: directory for slice image file names, str
     (default '')
 
 returns 
     dataframe with columns 'name' 'xmin' 'ymin' 'xmax' ymax', pd.DataFrame
 """
 def slice_images(file, images_path=root + "data/", overlap_ratio=0.2, size=250, name=""):
+    os.makedirs(name, exist_ok=True)
+    
     file_df = pd.DataFrame(columns=["file_name"])
     file_df["file_name"] = [file]
 
