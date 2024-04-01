@@ -85,10 +85,6 @@ def make_nodes(df):
         center = ((x1 + x2) // 2, (y1 + y2) // 2)
         label = df['pred_words'][i]
 
-        # correct mistaken inference
-        if label.lower() in "iill":
-            label = "hallway"
-
         # add as area node
         G.add_node(node(id=G.next_id, area=label, coord=center))
 
