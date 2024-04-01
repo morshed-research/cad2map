@@ -59,12 +59,12 @@ returns
 """
 def radial_edges(G, n=1):
     # get connective area nodes
-    nodes = [n for n in (G.nx_graph) if n.area_label.lower() in connective] 
+    nodes = [n for n in (G.nx_graph) if n.area_label.lower() in connective]
 
     for n1 in nodes:
         distances = {}
         
-        for n2 in G.nx_graph: # get distances to all other connective
+        for n2 in nodes: # get distances to all other connective
             if n1 == n2: # no self-edges
                 continue
             
