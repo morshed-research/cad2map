@@ -18,7 +18,7 @@ returns
 def door_edges(G):
     all_nodes = list(G.nx_graph.nodes())
     doors = [n for n in all_nodes if n.type == "door"]
-    nodes = [n for n in all_nodes if n.type != "door"]
+    nodes = [n for n in all_nodes if n.type == "area"]
 
     for n in nodes:
         distances = {}
