@@ -23,11 +23,11 @@ def door_to_connective(G):
 
     # each type of nodes
     doors = [n for n in all_nodes if n.type == "door"]
-    nodes = [n for n in all_nodes if n.area_label.lower() in connective]
+    nodes = [n for n in all_nodes if n.type == "connective"]
     
     for d in doors: # go over all door nodes
-        if len(G.nx_graph.edges(d)) > 1:
-            continue 
+        # if len(G.nx_graph.edges(d)) > 1:
+        #     continue 
         
         distances = {}
         
@@ -59,7 +59,7 @@ returns
 """
 def radial_edges(G, n=1):
     # get connective area nodes
-    nodes = [n for n in (G.nx_graph) if n.area_label.lower() in connective]
+    nodes = [n for n in (G.nx_graph) if n.type == "connective"]
 
     for n1 in nodes:
         distances = {}
