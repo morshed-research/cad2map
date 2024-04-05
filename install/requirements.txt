@@ -11,3 +11,4 @@ networkx
 bs4
 lxml
 albumentations
+gdown
