@@ -31,8 +31,8 @@ if __name__ == '__main__':
         print(argv[2])
         panels_df = pd.read_csv(argv[2])
     else:
-        pandels_df = slice_images(image_name, "data/",
-                          0.5, 1000,"data/test-panels/")
+        panels_df = slice_images(image_name, "data/",
+                          0.5, 1000,"data/cmuq-panels/")
 
     G = graph()
     for i in range(len(panels_df)):
@@ -50,9 +50,15 @@ if __name__ == '__main__':
 
         G = scale_nodes(local, G, int(row.xmin), int(row.ymin))
 
-    
+
     G = merge_dist(G)
+    G.set_connective()
+
     G = door_edges(G)
     G = door_to_connective(G)
 
-    G.draw(f"data/{image_name}", "results/graph-full.png")
+    G = radial_edges(G, n=2)
+    G.draw(f"data/{image_name}", 
+           f"results/{image_name.strip('.pngjpeg')}-graph.png", label_it=False)
+
+    print(f"total run time:{time() - t}secs")
