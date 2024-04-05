@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cv2
 
+from .connective import label_list
+
 node_area_types = ["area", "door", "connective"]
+conn_labels = set(label_list().connective)
 
 """
 Class for representing a node in our graph
@@ -177,6 +180,8 @@ class graph():
             # differentiate door and other nodes
             if n.type == "door":
                 colour.append("red")
+            elif n.type == "connective":
+                colour.append("orange")
             else:
                 colour.append("blue")
 
@@ -192,4 +197,8 @@ class graph():
         else: # plot graph without labels
             nx.draw(self.nx_graph,pos, with_labels=False, **options)
         plt.savefig(save_path) # save resulting plot
-    
+
+    def set_connective(self):
+        for n in self.nx_graph:
+            if n.area_label in conn_labels:
+                n.set_type("connective")
