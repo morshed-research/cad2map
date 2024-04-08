@@ -5,6 +5,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cv2
+import json
 
 from .connective import label_list
 
@@ -198,7 +199,47 @@ class graph():
             nx.draw(self.nx_graph,pos, with_labels=False, **options)
         plt.savefig(save_path) # save resulting plot
 
+    """
+    identifies all nodes that are connective areas by label and
+    changes their type in the graph 
+
+    parameters
+        None
+
+    returns 
+        None, destructive update
+    """
     def set_connective(self):
         for n in self.nx_graph:
             if n.area_label in conn_labels:
                 n.set_type("connective")
+
+    """
+    converts the graph to json format in a dictionary and 
+    saves the dictionary in the specified file location
+
+    parameters
+    - location: json file to save to with path, str
+        (required)
+
+    returns 
+        None
+    """
+    def to_json(self, location):
+        graph_dict = {"nodes": [], "edges": []}
+
+        for n in self.nx_graph:
+            (x, y) = n.coordinates
+            single = {"id": n.node_id, "name": n.area_label, 
+                      "x": int(x), "y": int(y)}
+            
+            graph_dict["nodes"].append(single)
+
+        edges = self.nx_graph.edges()
+        for (n1, n2) in edges:
+            single = {"id_1": n1.node_id, "id_2": n2.node_id}
+            graph_dict["edges"].append(single)
+        
+        file = open(location, "w")
+        json.dump(graph_dict, file, indent=2)
+        file.close()
