@@ -32,7 +32,7 @@ if __name__ == '__main__':
         panels_df = pd.read_csv(argv[2])
     else:
         panels_df = slice_images(image_name, "data/",
-                          0.5, 1000,"data/cmuq-panels/")
+                          0.5, 1000,"data/test-panels/")
 
     G = graph()
     for i in range(len(panels_df)):
@@ -45,7 +45,7 @@ if __name__ == '__main__':
             continue
         
         local = make_nodes(df)
-        door_df = door_boxes(image_path)
+        door_df = door_boxes(image_path, thresh=0.7)
         local = make_doors(door_df, local)
 
         G = scale_nodes(local, G, int(row.xmin), int(row.ymin))
@@ -58,7 +58,11 @@ if __name__ == '__main__':
     G = door_to_connective(G)
 
     G = radial_edges(G, n=2)
+
+    name = image_name.removesuffix('.jpeg').removesuffix(".png").removesuffix(".jpg")
     G.draw(f"data/{image_name}", 
-           f"results/{image_name.strip('.pngjpeg')}-graph.png", label_it=False)
+           f"results/{name}-graph.png", label_it=False)
+    
+    G.to_json(f"results/json/{name}-graph.json")
 
     print(f"total run time:{time() - t}secs")
