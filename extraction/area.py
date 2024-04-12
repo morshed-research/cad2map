@@ -83,7 +83,7 @@ def make_nodes(df):
         (x2, y2) = coords[2]
 
         center = ((x1 + x2) // 2, (y1 + y2) // 2)
-        label = df['pred_words'][i]
+        label = df['pred_words'][i].lower()
 
         # add as area node
         G.add_node(node(id=G.next_id, area=label, coord=center))
