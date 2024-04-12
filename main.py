@@ -10,7 +10,7 @@ from slicing.image_slice import slice_images
 
 from extraction.area import get_rooms, make_nodes
 from extraction.door import door_boxes, make_doors
-from extraction.merge import scale_nodes, merge_dist
+from extraction.merge import scale_nodes, merge_labels, merge_dist
 
 from linking.edges import door_edges
 
@@ -45,6 +45,7 @@ if __name__ == '__main__':
             continue
         
         local = make_nodes(df)
+        local = merge_labels(local)
         door_df = door_boxes(image_path, thresh=0.7)
         local = make_doors(door_df, local)
 
