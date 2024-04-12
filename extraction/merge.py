@@ -109,7 +109,7 @@ def merge_labels(G):
 
                 # only merge nodes if combined label in connective list
                 new_label = n1.area_label + n2.area_label
-                if new_label in label_list().all or n2.area_label == "room":
+                if dist <= 100 and (new_label in label_list().all or n2.area_label == "room"):
                     n1.coordinates = center
                     n1.area_label = new_label
 
