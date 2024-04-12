@@ -12,3 +12,4 @@ bs4
 lxml
 albumentations
 gdown
+cython
