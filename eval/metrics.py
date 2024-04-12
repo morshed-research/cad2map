@@ -2,33 +2,8 @@ import sys
 sys.path.append('../')
 
 from utils.graph import graph, node
-from utils.distance import node_dist, dist2pixel
+from utils.distance import node_dist, dist2pixel, euclidean_weight, find, find_entrance, coord_match
 import networkx as nx
-
-def euclidean_weight(n1, n2, edge):
-    (dist, centre) = node_dist(n1, n2)
-    return dist
-
-def coord_match(n1, n2):
-    (x1, y1) = n1.coordinates
-    (x2, y2) = n2.coordinates
-    one_metre = dist2pixel(1)
-
-    return (abs(x1 - x2) <= one_metre) and (abs(y1 - y2) <= one_metre) 
-
-def find(n, paths):
-    for n2 in paths:
-        if coord_match(n, n2):
-            return n2 
-    
-    return None
-
-def find_entrance(G):
-    for n in G.nx_graph:
-        if n.area_label.lower() == "entrance":
-            return n 
-    
-    return n # last node found
 
 class Path_Similarity():
     def __init__(self, G_source, G_target):
