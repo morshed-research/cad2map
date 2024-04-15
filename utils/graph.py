@@ -8,6 +8,7 @@ import cv2
 import json
 
 from .connective import label_list
+from .distance import coord_match
 
 node_area_types = ["area", "door", "connective"]
 conn_labels = set(label_list().connective)
@@ -47,6 +48,8 @@ class node():
         self.coordinates = coord # center coordinates (x, y)
 
         self.type = type # area or door node?
+
+        self.test = False
 
     """
     update area_label property of node
@@ -98,7 +101,18 @@ class node():
     invoked by ==
     """
     def __eq__(self, other):
-        return isinstance(other, node) and self.node_id == other.node_id
+        if isinstance(other, node) == False:
+            return False
+        
+        if self.test:
+            if self.type != other.type:
+                return False
+            elif self.type == "door" or self.type == "connective":
+                return coord_match(self, other)
+            else:
+                return self.area_label == other.area_label and coord_match(self, other)
+        else:
+            return self.node_id == other.node_id
     
     """
     hash based on unique id

@@ -24,8 +24,7 @@ class Path_Similarity():
 
         for origin in target_path:
             for n in source_path:
-                if (origin.area_label == n.area_label
-                    and coord_match(origin, n)):
+                if origin == n:
                     matches += 1
                     break
         
