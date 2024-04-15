@@ -13,7 +13,7 @@ source = to_graph(file)
 file.close()
 
 target.draw("data/test-floorplan-labelled.png", "results/basic.png")
-source.draw("data/test-floorplan-labelled.png", "results/basi-pipe.png")
+source.draw("data/test-floorplan-labelled.png", "results/basic-pipe.png")
 
 metric = Path_Similarity(source, target)
 print(metric.evaluate())
