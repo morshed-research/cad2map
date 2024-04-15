@@ -101,11 +101,18 @@ returns
     node close to n, node
 """
 def find(n, paths):
+    final = None
+    min_dist = None
+
     for n2 in paths:
-        if coord_match(n, n2):
-            return n2 
+        (dist, center) = node_dist(n, n2)
+        if min_dist == None:
+            min_dist = dist 
+
+        if coord_match(n, n2) and dist <= min_dist:
+            final = n2
     
-    return None
+    return final
 
 """
 returns node with label entrance, else last node if none exists
