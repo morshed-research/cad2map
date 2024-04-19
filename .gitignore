@@ -2,3 +2,6 @@ py10/
 model_weights/
 __pycache__/
 data/test-panels/
+results/basic-pipe.png
+results/basic.png
+test.py
