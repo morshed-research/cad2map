@@ -115,7 +115,7 @@ def find(n, paths):
     return final
 
 """
-returns node with label entrance, else last node if none exists
+returns node with label entrance, else first door if none exists
 
 parameters:
 - G: graph to search, graph
@@ -125,8 +125,13 @@ returns
     node
 """
 def find_entrance(G):
+    door = None
+
     for n in G.nx_graph:
-        if n.area_label.lower() == "entrance":
+        if "entrance" in n.area_label.lower():
+            print("start from", n)
             return n 
+        elif door != None and n.type == "door": # if no entrance, pick some door
+            door = n
     
-    return n # last node found
+    return door # first door found
