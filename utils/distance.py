@@ -112,7 +112,7 @@ def find(n, paths):
         if min_dist == None:
             min_dist = dist 
 
-        if coord_match(n, n2) and dist <= min_dist:
+        if n == n2 and dist <= min_dist:
             final = n2
     
     return final
