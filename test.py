@@ -4,16 +4,16 @@ from eval.metrics import Path_Similarity
 import networkx as nx
 import gmatch4py as gm
 
-file = open("data/ground-truth/jsons/test_floorplan.json", "r")
+file = open("data/ground-truth/jsons/West-Walkway-graph.json", "r")
 target = to_graph(file)
 file.close()
 
-file = open("results/json/test-floorplan-labelled-graph.json", "r")
+file = open("results/json/ground-truth-raw-West-Walkway-labelled-graph.json", "r")
 source = to_graph(file)
 file.close()
 
-target.draw("data/test-floorplan-labelled.png", "results/basic.png")
-source.draw("data/test-floorplan-labelled.png", "results/basic-pipe.png")
+target.draw("data/ground-truth/raw/West-Walkway.png", "results/basic.png")
+source.draw("data/ground-truth/raw/West-Walkway.png", "results/basic-pipe.png")
 
 metric = Path_Similarity(source, target)
 print(metric.evaluate())
