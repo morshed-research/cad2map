@@ -105,9 +105,8 @@ class node():
             return False
         
         if self.test:
-            if self.type != other.type:
-                return False
-            elif self.type == "door" or self.type == "connective":
+            # only area needs label match
+            if self.type == "door" or self.type == "connective":
                 return coord_match(self, other)
             else:
                 return self.area_label == other.area_label and coord_match(self, other)
