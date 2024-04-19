@@ -25,7 +25,7 @@ returns
     conversion value, int
 """
 def dist2pixel(distance):
-    return 100
+    return distance * 150
 
 """
 calculates the euclidean distance and center coordinate between
@@ -101,6 +101,9 @@ returns
     node close to n, node
 """
 def find(n, paths):
+    if n == None:
+        return None
+    
     final = None
     min_dist = None
 
@@ -115,7 +118,7 @@ def find(n, paths):
     return final
 
 """
-returns node with label entrance, else first door if none exists
+returns node with label entrance, else None
 
 parameters:
 - G: graph to search, graph
@@ -125,13 +128,33 @@ returns
     node
 """
 def find_entrance(G):
-    door = None
-
     for n in G.nx_graph:
         if "entrance" in n.area_label.lower():
-            print("start from", n)
-            return n 
-        elif door != None and n.type == "door": # if no entrance, pick some door
-            door = n
+            return n
     
-    return door # first door found
+    return None
+
+"""
+returns appropriate start points for paths between two graphs
+
+parameters
+- G1: first graph to evaluate, graph
+    (required)
+- G2: second graph to evaluate, graph
+    (required)
+
+returns 
+    node * node
+"""
+def find_match(G1, G2):
+    n1 = find_entrance(G1)
+    n2 = find(n1, G2.nx_graph)
+
+    if n1 == None or n2 == None:
+        for n1 in G1.nx_graph:
+            n2 = find(n1, G2.nx_graph)
+
+            if n2 != None:
+                return n1, n2
+            
+    return n1, n2 
