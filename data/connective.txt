@@ -5,3 +5,5 @@ corridor
 lounge
 stairs
 entrance
+court
+majlis
