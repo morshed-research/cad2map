@@ -46,7 +46,7 @@ if __name__ == '__main__':
         
         local = make_nodes(df)
         local = merge_labels(local)
-        door_df = door_boxes(image_path, thresh=0.7)
+        door_df = door_boxes(image_path, thresh=0.5)
         local = make_doors(door_df, local)
 
         G = scale_nodes(local, G, int(row.xmin), int(row.ymin))
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     G = radial_edges(G, n=2)
 
-    name = image_name.removesuffix('.jpeg').removesuffix(".png").removesuffix(".jpg")
+    name = image_name.removesuffix('.jpeg').removesuffix(".png").removesuffix(".jpg").replace("/", "-")
     G.draw(f"data/{image_name}", 
            f"results/{name}-graph.png", label_it=False)
     
