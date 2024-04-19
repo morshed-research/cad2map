@@ -175,7 +175,7 @@ class Path_Similarity():
         ratio of matching nodes * ratio of matching path weights * average missing nodes per path
     """
     def evaluate(self):
-        nodes = self.__area_matches()
+        nodes = self.__node_matches()
         edges = self.__weights()
         semantics = self.__semantic_matches()
 
