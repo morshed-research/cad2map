@@ -33,6 +33,9 @@ class Path_Similarity():
     def __init__(self, G_source, G_target):
         # start points in each graph
         s1, s2 = find_match(G_target, G_source)
+        if s1 == None or s2 == None:
+            print(0, 0, 0)
+            exit(0)
 
         # all target paths - dijkstra
         self.target_paths = nx.shortest_path(G_target.nx_graph, source=s1, 
@@ -137,7 +140,6 @@ class Path_Similarity():
     def __weights(self, verbose=False):
         matches = 0
         total = 0
-        five = dist2pixel(5)
 
         for target in self.target_lengths:
             if target.type != "area": # only paths to destinations
@@ -151,12 +153,19 @@ class Path_Similarity():
             total += 1
             diff = abs(self.source_lengths[source] - self.target_lengths[target])
             
-            if diff <= five: # path within 5m margin
+            if self.target_lengths[target] == 0:
+                if verbose:
+                    # show missing path if requested
+                    print("\n\ndiff:", diff / self.target_lengths[target], "s:", source, "t:", target, 
+                        "\nsource len:", self.source_paths[source], self.source_lengths[source], 
+                        "\ntarget len:", self.target_paths[target], self.target_lengths[target])
+                
+            elif (diff / self.target_lengths[target]) <= 0.2: # path with up to 20% difference
                 matches += 1
 
             elif verbose:
                 # show missing path if requested
-                print("\n\ndiff:", diff, "s:", source, "t:", target, 
+                print("\n\ndiff:", diff / self.target_lengths[target], "s:", source, "t:", target, 
                       "\nsource len:", self.source_paths[source], self.source_lengths[source], 
                       "\ntarget len:", self.target_paths[target], self.target_lengths[target])
 
