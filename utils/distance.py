@@ -25,7 +25,7 @@ returns
     conversion value, int
 """
 def dist2pixel(distance):
-    return distance * 150
+    return distance * 50
 
 """
 calculates the euclidean distance and center coordinate between

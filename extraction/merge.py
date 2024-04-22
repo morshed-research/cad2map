@@ -77,7 +77,7 @@ returns
     graph with nodes merged, graph
 """
 def merge_dist(G):
-    two_metres = dist2pixel(1)
+    two_metres = dist2pixel(2)
     return merge_thresh_nodes(G, two_metres)
 
 """
