@@ -84,9 +84,9 @@ returns
 def coord_match(n1, n2):
     (x1, y1) = n1.coordinates
     (x2, y2) = n2.coordinates
-    one_metre = dist2pixel(1)
+    metre = dist2pixel(2)
 
-    return (abs(x1 - x2) <= one_metre) and (abs(y1 - y2) <= one_metre) 
+    return (abs(x1 - x2) <= metre) and (abs(y1 - y2) <= metre) 
 
 """
 finds first node in paths that is within 1 metre of node n
