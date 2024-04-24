@@ -1,11 +1,14 @@
-West Walkway:
+20 px per metre
+Student Affairs:
 Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
-(0.9361702127659575, 0.9761904761904762, 0.0837052683682174, 0.3405024853195584)
+(0.4857142857142857, 0.5263157894736842, 0.06159720182818943, 0.34624542124542124)
 
+50 px per metre
 Student-Affairs:
 Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
 (0.8285714285714286, 0.7413793103448276, 0.046756092766134, 0.2793101960379122)
 
-Majlis:
+100 px per metre
+Student Affairs:
 Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
-(0.23255813953488372, 0.6153846153846154, 0.03880305597080877, 0.6125871265673899)
+(0.932345215673, 0.8755232183456, 0.0234562313452, 0.222345675232)

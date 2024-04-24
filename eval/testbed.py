@@ -4,8 +4,11 @@ sys.path.append("../")
 import os
 import json
 import numpy as np
+import networkx as nx 
+
 from utils.graph import graph, node
 from utils.connective import label_list
+from utils.distance import find
 
 root = os.path.dirname(__file__) + "/../"
 conn_labels = label_list().connective
@@ -100,3 +103,56 @@ def to_graph(json_file, scale=1):
         make_edge(G, edge_data, node_objs)
 
     return G
+
+def remove_node(nodes, rn):
+    for i in range(len(nodes)):
+        n = nodes[i]
+        if n.node_id == rn.node_id:
+            nodes.pop(i)
+            return
+        
+    print("not found")
+
+def to_IL_graph(G1, G2):
+    G1_map = dict()
+    G2_map = dict()
+
+    G1_nodes = list(G1.nx_graph.nodes)
+    G2_nodes = list(G2.nx_graph.nodes)
+
+    IL_1 = nx.Graph()
+    IL_2 = nx.Graph()
+
+    id = 0
+    missing = 0
+
+    for n1 in G1_nodes:
+        n2 = find(n1, G2_nodes)
+
+        G1_map[n1] = id
+        IL_1.add_node(id)
+
+        if n2 != None:
+            G2_map[n2] = id
+            IL_2.add_node(id)
+
+            remove_node(G2_nodes, n2)
+        else:
+            missing += 1
+
+        id += 1
+
+    for n2 in G2_nodes:
+        G2_map[n2] = id
+        IL_2.add_node(id)
+
+        id += 1
+
+    for (n1, n2) in G1.nx_graph.edges:
+        IL_1.add_edge(G1_map[n1], G1_map[n2])
+
+    for (n1, n2) in G2.nx_graph.edges:
+        IL_2.add_edge(G2_map[n1], G2_map[n2])
+
+    return IL_1, IL_2
+    

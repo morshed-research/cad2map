@@ -34,7 +34,7 @@ class Path_Similarity():
         # start points in each graph
         s1, s2 = find_match(G_target, G_source)
         if s1 == None or s2 == None:
-            print(0, 0, 0)
+            print(0, 0, 0, 0)
             exit(0)
 
         # all target paths - dijkstra
@@ -83,7 +83,7 @@ class Path_Similarity():
         average number of missing nodes in path, int
     """
     def __semantic_matches(self):
-        diff = 0
+        matches = []
         total = 0
 
         for target in self.target_paths:
@@ -98,9 +98,15 @@ class Path_Similarity():
             total += 1
 
             # update number of missing nodes
-            diff += self.__semantics(self.source_paths[source], self.target_paths[target])
+            path_len =  len(self.target_paths[target])
+            diff = self.__semantics(self.source_paths[source], self.target_paths[target])
 
-        return diff // total
+            matches.append(diff / path_len)
+
+        if total == 0:
+            return 0
+        else:
+            return sum(matches) / total
     
     """
     private function to check how many target nodes are
@@ -112,19 +118,26 @@ class Path_Similarity():
     returns 
         ratio of matching nodes over total nodes, float
     """
-    def __node_matches(self):
+    def __node_matches(self, type):
         matches = 0
+        total = 0
 
         for target in self.target_paths:
-            source = find(target, self.source_paths)
+            if target.type != type:
+                continue 
+            
+            total += 1 # searching for another node 
 
+            source = find(target, self.source_paths)
             if source == None: # no equivalent node
-                print("no match for", target)
                 continue
 
             matches += 1
-
-        return matches / len(self.target_paths)
+        
+        if total == 0:
+            return 0
+        else:
+            return matches / total
     
     """
     private function to check how many paths to area nodes have distance
@@ -138,7 +151,7 @@ class Path_Similarity():
         proportion of passing paths compared to total evaluated paths
     """
     def __weights(self, verbose=False):
-        matches = 0
+        matches = []
         total = 0
 
         for target in self.target_lengths:
@@ -154,15 +167,9 @@ class Path_Similarity():
             diff = abs(self.source_lengths[source] - self.target_lengths[target])
             
             if self.target_lengths[target] == 0:
-                if verbose:
-                    # show missing path if requested
-                    print("\n\ndiff:", diff / self.target_lengths[target], "s:", source, "t:", target, 
-                        "\nsource len:", self.source_paths[source], self.source_lengths[source], 
-                        "\ntarget len:", self.target_paths[target], self.target_lengths[target])
-                
+                matches.append(0)
             elif (diff / self.target_lengths[target]) <= 0.2: # path with up to 20% difference
-                matches += 1
-
+                matches.append(diff / self.target_lengths[target])
             elif verbose:
                 # show missing path if requested
                 print("\n\ndiff:", diff / self.target_lengths[target], "s:", source, "t:", target, 
@@ -172,7 +179,7 @@ class Path_Similarity():
         if total == 0:
             return 0
         else:
-            return matches / total
+            return sum(matches) / total
     
     """
     runs the evaluation metric. 
@@ -184,10 +191,12 @@ class Path_Similarity():
         ratio of matching nodes * ratio of matching path weights * average missing nodes per path
     """
     def evaluate(self):
-        nodes = self.__node_matches()
+        door_nodes = self.__node_matches("door")
+        area_nodes = self.__node_matches("area")
         edges = self.__weights()
         semantics = self.__semantic_matches()
 
-        return nodes, edges, semantics
+        print("Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity")
+        return door_nodes, area_nodes, edges, semantics
 
 

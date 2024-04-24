@@ -1,82 +1,64 @@
 0
-no match for hallway: (1334,2378)
-no match for hallway: (627,2231)
-no match for hallway: (1729,2370)
-no match for hallway: (2089,2368)
-no match for 1135_reception-desk: (3031,2917)
-no match for hallway: (2721,2361)
-no match for prayer_room_door: (2191,1954)
-no match for hallway: (3442,2374)
-(0.9393939393939394, 0.9024390243902439, 4)
-matrix:  [[  0. 735.]
- [780.   0.]]
-similarity:  [[0.         0.94230769]
- [1.         0.        ]]
+West Walkway:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.9787234042553191, 0.9761904761904762, 0.08263105557829357, 0.3405024853195584)
+
+Student Affairs:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.8714285714285714, 0.7413793103448276, 0.04310601563839872, 0.2801407608219653)
+
+Majlis:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.4418604651162791, 0.6153846153846154, 0.052341652958253444, 0.5996903011705643)
 
 0.25
-no match for hallway: (1334,2378)
-no match for hallway: (627,2231)
-no match for hallway: (1729,2370)
-no match for hallway: (2089,2368)
-no match for 1135_reception-desk: (3031,2917)
-no match for reception_door: (3047,2559)
-no match for hallway: (2721,2361)
-no match for prayer_room_door: (2191,1954)
-no match for hallway: (3442,2374)
-no match for 1048_door: (4043,1879)
-(0.9242424242424242, 0.9024390243902439, 4)
-matrix:  [[  0. 723.]
- [762.   0.]]
-similarity:  [[0.        0.9488189]
- [1.        0.       ]]
+West Walkway:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.9361702127659575, 0.9761904761904762, 0.08360890645000975, 0.3405024853195584)
+
+Student Affairs:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.8285714285714286, 0.7413793103448276, 0.04680784232175227, 0.2793101960379122)
+
+Majlis:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.3023255813953488, 0.6153846153846154, 0.038712036081335374, 0.6125871265673899)
 
 0.5
-no match for hallway: (1334,2378)
-no match for hallway: (627,2231)
-no match for hallway: (1729,2370)
-no match for hallway: (2089,2368)
-no match for 1135_reception-desk: (3031,2917)
-no match for reception_door: (3047,2559)
-no match for hallway: (2721,2361)
-no match for prayer_room_door: (2191,1954)
-no match for hallway: (3442,2374)
-no match for 1048_door: (4043,1879)
-(0.9242424242424242, 0.9024390243902439, 4)
-matrix:  [[  0. 721.]
- [759.   0.]]
-similarity:  [[0.         0.94993412]
- [1.         0.        ]]
+West Walkway:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.9361702127659575, 0.9761904761904762, 0.0837052683682174, 0.3405024853195584)
+
+Student-Affairs:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.8285714285714286, 0.7413793103448276, 0.046756092766134, 0.2793101960379122)
+
+Majlis:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.23255813953488372, 0.6153846153846154, 0.03880305597080877, 0.6125871265673899)
 
 0.75
-no match for hallway: (1334,2378)
-no match for hallway: (627,2231)
-no match for hallway: (1729,2370)
-no match for hallway: (2089,2368)
-no match for 1135_reception-desk: (3031,2917)
-no match for reception_door: (3047,2559)
-no match for hallway: (2721,2361)
-no match for prayer_room_door: (2191,1954)
-no match for hallway: (3442,2374)
-no match for 1048_door: (4043,1879)
-(0.9242424242424242, 0.9024390243902439, 4)
-matrix:  [[  0. 715.]
- [750.   0.]]
-similarity:  [[0.         0.95333333]
- [1.         0.        ]]
+West Walkway:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.9361702127659575, 0.9761904761904762, 0.08702247545818768, 0.3449370751200018)
+
+Student Affairs:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.8142857142857143, 0.7413793103448276, 0.04376228083928109, 0.2892769734465501)
+
+Majlis:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.23255813953488372, 0.6153846153846154, 0.0394919575291516, 0.6125871265673899)
 
 0.95
-no match for hallway: (1334,2378)
-no match for hallway: (627,2231)
-no match for hallway: (1729,2370)
-no match for hallway: (2089,2368)
-no match for 1135_reception-desk: (3031,2917)
-no match for reception_door: (3047,2559)
-no match for hallway: (2721,2361)
-no match for prayer_room_door: (2191,1954)
-no match for hallway: (3442,2374)
-no match for 1048_door: (4043,1879)
-(0.9242424242424242, 0.8536585365853658, 4)
-matrix:  [[  0. 711.]
- [744.   0.]]
-similarity:  [[0.         0.95564516]
- [1.         0.        ]]
+West Walkway:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.9361702127659575, 0.9761904761904762, 0.08891790294450182, 0.3585356039624333)
+
+Student Affairs:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.7571428571428571, 0.7413793103448276, 0.048211858368606635, 0.292119350707532)
+
+Majlis:
+Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
+(0.13953488372093023, 0.5897435897435898, 0.021244207496772007, 0.6273792441984662)
