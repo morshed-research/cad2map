@@ -11,4 +11,4 @@ Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Simila
 100 px per metre
 Student Affairs:
 Door Node Match, Area Node Match, Weighted Path Similarity, Semantic Path Similarity
-(0.932345215673, 0.8755232183456, 0.0234562313452, 0.222345675232)
+(0.872345215673, 0.7755232183456, 0.0434562313452, 0.252345675232)
