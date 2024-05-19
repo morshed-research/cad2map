@@ -48,6 +48,16 @@ class Path_Similarity():
                                              weight=euclidean_weight)
         self.source_lengths = nx.shortest_path_length(G_source.nx_graph, source=s2, 
                                              weight=euclidean_weight)
+        
+        # print testbed stats
+        G1_nodes = list(G_target.nx_graph.nodes())
+        doors = [n for n in G1_nodes if n.type == "door"]
+        nodes = [n for n in G1_nodes if n.type == "area"]
+
+        paths = self.target_lengths.values()
+
+        print(f"Area Nodes\t Door Nodes\t Total Paths\t Longest Path\t Shortest Path\t Average Path")
+        print(f"{len(nodes)}\t\t {len(doors)}\t\t {len(paths)}\t\t {max(paths)}\t\t {min(paths)}\t\t {sum(paths) / len(paths)}")
 
     """
     private function to check whether the nodes on
