@@ -16,6 +16,8 @@ from linking.edges import door_edges
 
 from completion.edges import door_to_connective, radial_edges
 
+from eval.testbed import test_doors
+
 print(f"imports: {time() - t}")
 argc = len(argv)
 
@@ -46,24 +48,30 @@ if __name__ == '__main__':
         
         local = make_nodes(df)
         local = merge_labels(local)
-        door_df = door_boxes(image_path, thresh=0.5)
-        local = make_doors(door_df, local)
+        # door_df = door_boxes(image_path, thresh=0.5)
+        # local = make_doors(door_df, local)
 
         G = scale_nodes(local, G, int(row.xmin), int(row.ymin))
-
 
     G = merge_dist(G)
     G.set_connective()
 
-    G = door_edges(G)
-    G = door_to_connective(G)
+    file = open("data/ground-truth/jsons/West-Walkway-graph.json", "r")
+    G = test_doors(G, file)
+    file.close()
 
-    G = radial_edges(G, n=2)
+    try:
+        G = door_edges(G)
+        G = door_to_connective(G)
+
+        G = radial_edges(G, n=2)
+    except:
+        print("no doors!")
 
     name = image_name.removesuffix('.jpeg').removesuffix(".png").removesuffix(".jpg").replace("/", "-")
     G.draw(f"data/{image_name}", 
-           f"results/{name}-graph.png", label_it=False)
+           f"results/{name}-testdoors-graph.png", label_it=False)
     
-    G.to_json(f"results/json/{name}-graph.json")
+    G.to_json(f"results/json/{name}-testdoors-graph.json")
 
     print(f"total run time:{time() - t}secs")

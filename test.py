@@ -4,7 +4,7 @@ from eval.metrics import Path_Similarity
 import networkx as nx
 import gmatch4py as gm
 
-file = open("data/ground-truth/jsons/West-Walkway-graph.json", "r")
+file = open("data/ground-truth/jsons/Majlis-50-graph.json", "r")
 target = to_graph(file)
 file.close()
 
@@ -15,11 +15,10 @@ file.close()
 target.draw("data/ground-truth/raw/Majlis-labelled-50.png", "results/basic.png")
 source.draw("data/ground-truth/raw/Majlis-labelled-50.png", "results/basic-pipe.png")
 
-metric = Path_Similarity(source, target)
+# metric = Path_Similarity(source, target)
+# print(metric.evaluate())
 
 # attempt for GED
-print(metric.evaluate())
-
 nx1, nx2 = to_IL_graph(target, source)
 print(len(nx1.nodes), len(nx2.nodes))
 print(len(nx1.edges), len(nx2.edges))
