@@ -104,6 +104,20 @@ def to_graph(json_file, scale=1):
 
     return G
 
+def test_doors(G, json_file, scale=1):
+    data = json.load(json_file)
+
+    nodes = data["nodes"]
+    for node_data in nodes:
+        n = make_node(node_data, scale)
+
+        if n.type == "door":
+            G.add_node(n)
+            print("door added")
+
+    return G
+
+
 def remove_node(nodes, rn):
     for i in range(len(nodes)):
         n = nodes[i]
