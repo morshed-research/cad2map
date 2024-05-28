@@ -1,0 +1,17 @@
+West Walkway:
+target nodes: 137, source nodes: 156
+target edges: 136, source edges: 166
+[[  0. 207.]
+ [177.   0.]]
+
+Student Affairs:
+target nodes: 181, source nodes: 185
+target edges: 191, source edges: 198
+[[  0. 317.]
+ [317.   0.]]
+
+Majlis:
+target nodes: 118, source nodes: 115
+target edges: 127, source edges: 123
+[[  0. 220.]
+ [235.   0.]]
