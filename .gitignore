@@ -5,6 +5,7 @@ data/test-panels/
 data/test-panels-1/
 data/test-panels-2/
 data/test-panels-3/
+GMatch4py/
 results/basic-pipe.png
 results/basic.png
 test.py
