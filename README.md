@@ -26,3 +26,16 @@ The pipeline implementation uses three external models. First, it uses the [CRAF
 ## Repository File Structure
 
 ## Run the Code
+### Pipeline Execution 
+To run the pipeline on a PNG image floorplan, execute the following in a terminal:
+```
+python main.py <path-to-image>
+```
+
+Note that the test image should be stored under the data folder, and the data folder should not be included as part of the path.
+
+### Evaluation Execution
+To run evaluation on a PNG image floorplan, execute the following in a terminal:
+```
+python main.py <path-to-image-json> <path-to-ground-truth-json> <path-to-original-image>
+```
