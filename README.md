@@ -25,25 +25,28 @@ The pipeline implementation uses three external models. First, it uses the [CRAF
 
 ## Repository File Structure
 ### 'utils'
-- connective.py:
-- distance.py:
-- graph.py:
+Folder containing base object classes and measure functions
+- connective.py: contains class for identifying connective nodes globally
+- distance.py: contains functions for computing and making use of distances between node coordinates
+- graph.py: contains node and graph object classes
 
 ### 'slicing'
-- dataset.py:
-- image_slice.py:
+Folder containing relevant object classes and functions to slice an image into several subset images
+- dataset.py: contains object classes needed to process PNG images for slicing into several subset images
+- image_slice.py: contains functions to process PNG image and save it as several subset images of similar size
 
 ### 'results'
-- 'average':
-- 'doors':
-- 'euclidean':
-- 'evaluation':
-- 'inference':
-- 'json':
-- 'pipeline':
-- 'radial':
-- 'splicing':
-- 'testbeds':
+Folder containing all intermediary and final results from pipeline development
+- 'average': initial test on creating edges based on average distance threshold
+- 'doors': initial tests on accumulating door edges with different converging methods
+- 'euclidean': initial test on using fixed euclidean distance thresholds to create edges
+- 'evaluation': final evaluation results for different parameters
+- 'inference': results from identifying text bounding boxes on different floorplan images
+- 'json': resulting JSONs representing the graph structure for final evaluation results
+- 'pipeline': full pipeline at intermediary stages of development
+- 'radial': initial tests on creating edges based on fixed number of connections to nearest nodes
+- 'splicing': intial tests on splicing floorplan images
+- 'testbeds': initial tests of loading ground truth JSONs
 
 ### 'linking'
 - edges.py: 
