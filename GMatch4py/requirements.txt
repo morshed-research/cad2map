@@ -1,6 +1,0 @@
-decorator
-scipy
-networkx==2.1
-numpy
-cython
-
