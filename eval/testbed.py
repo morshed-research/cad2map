@@ -112,6 +112,7 @@ def test_doors(G, json_file, scale=1):
         n = make_node(node_data, scale)
 
         if n.type == "door":
+            n.node_id = G.next_id
             G.add_node(n)
             print("door added")
 
