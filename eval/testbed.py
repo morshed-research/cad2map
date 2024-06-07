@@ -104,34 +104,71 @@ def to_graph(json_file, scale=1):
 
     return G
 
-def test_doors(G, json_file, scale=1):
-    data = json.load(json_file)
+"""
+extracts only door nodes from the given JSON file and adds it to the given graph
 
-    nodes = data["nodes"]
+parameters
+- G: graph to add door nodes to, graph
+    (required)
+- json_file: path of JSON file, str
+    (required) 
+- scale: scale for coordinates, float
+    (default = 1)
+
+returns
+    graph with doors from JSON file, graph
+"""
+def test_doors(G, json_file, scale=1):
+    data = json.load(json_file) # load file data
+
+    nodes = data["nodes"] # read all nodes
     for node_data in nodes:
         n = make_node(node_data, scale)
 
-        if n.type == "door":
+        if n.type == "door": # only add door nodes
             n.node_id = G.next_id
             G.add_node(n)
             print("door added")
 
     return G
 
+"""
+Removes the given node from the list of nodes
 
+parameters
+- nodes: list of nodes to remove from, node list
+    (required)
+- rn: node to remove, node
+    (required) 
+
+returns 
+    None
+"""
 def remove_node(nodes, rn):
     for i in range(len(nodes)):
         n = nodes[i]
-        if n.node_id == rn.node_id:
+        if n.node_id == rn.node_id: # found match by id
             nodes.pop(i)
             return
         
     print("not found")
 
+"""
+converts the given two graphs to integer labelled graphs, with matching nodes within the graphs having the same integer id
+
+parameters
+- G1: first graph to convert, graph
+- G2: second graph to convert, graph
+
+returns
+    first IL graph & second IL graph, graph * graph
+"""
 def to_IL_graph(G1, G2):
+    # store integer mappings for edges
     G1_map = dict()
     G2_map = dict()
 
+    # list of each's nodes
     G1_nodes = list(G1.nx_graph.nodes)
     G2_nodes = list(G2.nx_graph.nodes)
 
@@ -141,28 +178,29 @@ def to_IL_graph(G1, G2):
     id = 0
     missing = 0
 
-    for n1 in G1_nodes:
+    for n1 in G1_nodes: # process first graph's nodes
         n2 = find(n1, G2_nodes)
 
-        G1_map[n1] = id
+        G1_map[n1] = id # update mapping
         IL_1.add_node(id)
 
-        if n2 != None:
+        if n2 != None: # make equivalent node have same id
             G2_map[n2] = id
             IL_2.add_node(id)
 
-            remove_node(G2_nodes, n2)
+            remove_node(G2_nodes, n2) # don't double process later
         else:
-            missing += 1
+            missing += 1 # record number of no matches
 
         id += 1
 
-    for n2 in G2_nodes:
+    for n2 in G2_nodes: # process all remaining in second
         G2_map[n2] = id
         IL_2.add_node(id)
 
-        id += 1
+        id += 1 # continue same id
 
+    # process edges based on new labels
     for (n1, n2) in G1.nx_graph.edges:
         IL_1.add_edge(G1_map[n1], G1_map[n2])
 
