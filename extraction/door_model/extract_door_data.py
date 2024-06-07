@@ -23,6 +23,9 @@ def get_door_tags(svg):
     soup = BeautifulSoup(svg, 'xml')
     return soup.find_all(attrs={'id':'Door'})
 
+"""
+converts string in format of '(x, y)' into x and y coordinates as integers
+"""
 def str2coord(s):
     (x, y) = s.split(",")
     return int(float(x)), int(float(y))
@@ -43,11 +46,15 @@ def get_door_thresh(elem):
 
     return x, y
 
+"""
+finds the closing coordinate of the bounding box given a polygon element from
+the floorplan SVG
+"""
 def get_curve_end(elem):
     path = elem.find("path")
 
     coord = path.attrs["d"].split(" ")
-    coord = [s.strip(" MmQqLl\n\r\t") for s in coord]
+    coord = [s.strip(" MmQqLl\n\r\t") for s in coord] # remove other path labels
 
     x = [str2coord(s)[0] for s in (coord[::2])]
     y = [str2coord(s)[1] for s in (coord[::2])]
