@@ -24,6 +24,50 @@ sh install/weights.sh
 The pipeline implementation uses three external models. First, it uses the [CRAFT](https://github.com/clovaai/CRAFT-pytorch) text bounding box detection model to extract text bounding boxes from PNG image floorplans. Second, it uses the [Deep Text Recognition](https://github.com/clovaai/deep-text-recognition-benchmark) model to infer text labels from the PNG image floorplans. Finally, it uses a door bounding box detection model that we trained at [Door Detection Repository](https://github.com/morshed-research/Door_Detection_Model) to output door bounding boxes from PNG image floorplans. 
 
 ## Repository File Structure
+### 'utils'
+- connective.py:
+- distance.py:
+- graph.py:
+
+### 'slicing'
+- dataset.py:
+- image_slice.py:
+
+### 'results'
+- 'average':
+- 'doors':
+- 'euclidean':
+- 'evaluation':
+- 'inference':
+- 'json':
+- 'pipeline':
+- 'radial':
+- 'splicing':
+- 'testbeds':
+
+### 'linking'
+- edges.py: 
+
+### 'install' 
+- requirements.txt:
+- setup.sh:
+- weights.sh:
+
+### 'extraction' 
+- 'door_model':
+- 'label_model':
+- area.py:
+- door.py:
+- merge.py:
+
+### 'eval'
+- metrics.py:
+- testbed.py:
+
+### 'data'
+
+### 'completion'
+- edges.py
 
 ## Run the Code
 ### Pipeline Execution 
