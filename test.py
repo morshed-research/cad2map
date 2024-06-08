@@ -4,17 +4,32 @@ from eval.metrics import Path_Similarity
 import networkx as nx
 import gmatch4py as gm
 
-file = open("data/ground-truth/jsons/West-Walkway-graph.json", "r")
+from sys import argv
+
+# get command line arguments
+argc = len(argv)
+if argc != 4:
+    print("usage: python main.py <path-to-image-json> <path-to-ground-truth-json> <path-to-original-image>")
+else:
+    source_json = argv[1]
+    target_json = argv[2]
+    image_path = argv[3]
+
+# target graph
+file = open(target_json, "r")
 target = to_graph(file)
 file.close()
 
-file = open("results/json/ground-truth-raw-West-Walkway-labelled-testdoors-graph.json", "r")
+# generated graph
+file = open(source_json, "r")
 source = to_graph(file)
 file.close()
 
-target.draw("data/ground-truth/raw/West-Walkway-labelled.png", "results/basic.png")
-source.draw("data/ground-truth/raw/West-Walkway-labelled.png", "results/basic-pipe.png")
+# show graphs as images
+target.draw(image_path, "results/basic.png")
+source.draw(image_path, "results/basic-pipe.png")
 
+# path-based similarity
 metric = Path_Similarity(source, target)
 print(metric.evaluate())
 
