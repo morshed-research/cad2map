@@ -33,7 +33,7 @@ Folder containing base object classes and measure functions
 ### 'slicing'
 Folder containing relevant object classes and functions to slice an image into several subset images
 - dataset.py: contains object classes needed to process PNG images for slicing into several subset images
-- image_slice.py: contains functions to process PNG image and save it as several subset images of similar size
+- image_slice.py: contains functions to process a PNG image and save it as several subset images of similar size
 
 ### 'results'
 Folder containing all intermediary and final results from pipeline development
@@ -44,33 +44,39 @@ Folder containing all intermediary and final results from pipeline development
 - 'inference': results from identifying text bounding boxes on different floorplan images
 - 'json': resulting JSONs representing the graph structure for final evaluation results
 - 'pipeline': full pipeline at intermediary stages of development
-- 'radial': initial tests on creating edges based on fixed number of connections to nearest nodes
-- 'splicing': intial tests on splicing floorplan images
+- 'radial': initial tests on creating edges based on a fixed number of connections to the nearest nodes
+- 'splicing': initial tests on splicing floorplan images
 - 'testbeds': initial tests of loading ground truth JSONs
 
 ### 'linking'
-- edges.py: 
+Folder containing functions to create edges based on door nodes
+- edges.py: contains a function to connect area nodes to the closest door nodes
 
 ### 'install' 
-- requirements.txt:
-- setup.sh:
-- weights.sh:
+Folder containing all scripts and files needed to install dependent weights and libraries
+- requirements.txt: *most* required Python packages
+- setup.sh: script to install required python packages
+- weights.sh: script to install needed model weights
 
 ### 'extraction' 
-- 'door_model':
-- 'label_model':
-- area.py:
-- door.py:
-- merge.py:
+Folder containing code needed to extract all areas and doors from a PNG image
+- 'door_model': code to extract door bounding boxes
+- 'label_model': code to extract text bounding boxes
+- area.py: code to create area nodes
+- door.py: code to create door nodes
+- merge.py: functions that check conditions for merging nodes that represent the same location and perform this merge when needed
 
 ### 'eval'
-- metrics.py:
-- testbed.py:
+Folder containing objects and functions used for evaluating pipeline output
+- metrics.py: contains the object to perform shortest path similarity evaluation
+- testbed.py: contains functions to load output or ground truth graphs from JSON format
 
 ### 'data'
+Folder containing test input data, image slices and ground truth files
 
 ### 'completion'
-- edges.py
+Folder for handling missing edge cases after initial convergence through doors
+- edges.py: contains functions to create edges between doors and connective areas, and between connective areas themselves
 
 ## Run the Code
 ### Pipeline Execution 
