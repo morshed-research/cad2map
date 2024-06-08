@@ -1,5 +1,6 @@
 from sys import argv
 from time import time
+import os
 
 t = time()
 import pandas as pd
@@ -33,6 +34,8 @@ if __name__ == '__main__':
         print(argv[2])
         panels_df = pd.read_csv(argv[2])
     else:
+        if not os.path.exists("data/test-panels/"):
+            os.makedirs("data/test-panels/")
         panels_df = slice_images(image_name, "data/",
                           0.5, 1000,"data/test-panels/")
 
