@@ -61,37 +61,38 @@ def get_curve_end(elem):
 
     return sum(x), sum(y)
 
-# get all dataset path
-if len(sys.argv) != 3:
-    sys.exit(1)
-else:
-    # want to run -> python extract_door_output.py folder path_file
-    folder = sys.argv[1]
-    paths = open(sys.argv[2], "r")
+if __name__ == "main":
+    # get all dataset path
+    if len(sys.argv) != 3:
+        sys.exit(1)
+    else:
+        # want to run -> python extract_door_output.py folder path_file
+        folder = sys.argv[1]
+        paths = open(sys.argv[2], "r")
 
-df=pd.DataFrame(columns=['xmin', 'ymin', 'xmax', 'ymax', 'Frame', 'Label'])
+    df=pd.DataFrame(columns=['xmin', 'ymin', 'xmax', 'ymax', 'Frame', 'Label'])
 
-# read each dataset path
-for line in paths:
-    path = line.strip() # path to output
-    svg = get_svg(folder + path + "model.svg")
+    # read each dataset path
+    for line in paths:
+        path = line.strip() # path to output
+        svg = get_svg(folder + path + "model.svg")
 
-    door_elements = get_door_tags(svg)
+        door_elements = get_door_tags(svg)
 
-    # write output value for each door
-    for elem in door_elements:
-        all_x, all_y = get_door_thresh(elem)
-        try:
-          x, y = get_curve_end(elem)
-        except:
-          continue
+        # write output value for each door
+        for elem in door_elements:
+            all_x, all_y = get_door_thresh(elem)
+            try:
+                x, y = get_curve_end(elem)
+            except:
+                continue
 
-        all_x.append(x)
-        all_y.append(y)
+            all_x.append(x)
+            all_y.append(y)
 
-        # print(min(all_x), min(all_y), max(all_x), max(all_y))
-        df.loc[len(df.index)] = [min(all_x), min(all_y), max(all_x), max(all_y),
-                                 path + "F1_scaled.png", "Door"]
+            # print(min(all_x), min(all_y), max(all_x), max(all_y))
+            df.loc[len(df.index)] = [min(all_x), min(all_y), max(all_x), max(all_y),
+                                    path + "F1_scaled.png", "Door"]
 
-print(df)
-df.to_csv(folder + "/doors.csv", index=False)
+    print(df)
+    df.to_csv(folder + "/doors.csv", index=False)
