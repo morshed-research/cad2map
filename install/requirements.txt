@@ -13,3 +13,4 @@ lxml
 albumentations
 gdown
 cython
+shapely
