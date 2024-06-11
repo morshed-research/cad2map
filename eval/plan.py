@@ -1,4 +1,6 @@
-# Author: Yueheng Lu <luyueheng.arch@gmail.com>
+# src: https://github.com/luyueheng/CubiGraph5K
+import sys 
+sys.path.append('../')
 
 # Imports
 from typing import List, Tuple, Dict
@@ -7,7 +9,6 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag as bs4Tag
 from collections import defaultdict
 from queue import Queue
-
 
 room_colors = {
     # map from class name (after Space)
@@ -90,16 +91,22 @@ room_name_map = {
 
 room_type = ['LivingRoom', 'Bedroom', 'Kitchen', 'Dining', 'Bath', 'Storage', 'Entry', 'Garage', 'Other', 'Outdoor']
 
-
+"""
+returns list of coordinate points for given svg shape
+"""
 def get_points_from_svg_group(svg_group: bs4Tag) -> List[Tuple[float, float]]:
     points_str = svg_group.find('polygon').attrs['points'] 
     return [(float(p.split(',')[0]), float(p.split(',')[1])) for p in points_str.strip().split(' ')]
 
-
+"""
+returns mean of numbers in the given list
+"""
 def mean(nums: List[float]) -> float:
     return sum(nums) / len(nums)
 
-
+"""
+object class to represent SVG's XML tags generically
+"""
 class Tag:
 
     def __init__(self, name: str, attrs: Dict):
@@ -107,9 +114,11 @@ class Tag:
         self.attrs = attrs
         self.children = []
     
+    # add a child tag
     def add(self, tag: 'Tag') -> None:
         self.children.append(tag)
 
+    # print as full tag string
     def __str__(self) -> str:
         return '<{} {}>\n{}</{}>\n'.format(
             self.name,
@@ -117,54 +126,81 @@ class Tag:
             ''.join([str(c) for c in self.children]),
             self.name)
 
-
+"""
+object class to represent a room from the floorplan SVG
+"""
 class Room:
 
     def __init__(self, svg_space_group: bs4Tag, room_type_count: Dict):
+        # room bounding box
         self.points = get_points_from_svg_group(svg_space_group)
+
+        # room labelling
         self.type = room_name_map[svg_space_group.attrs['class'][1]]
         self.name = '{}_{}'.format(self.type, room_type_count[self.type]+1)
         room_type_count[self.type] += 1
+
+        # centre point and doors
         self.center_point = self._get_center_point()
         self.adjacent_doors = set() # generate by calling self.get_adjacent_doors()
 
+        self.svg_class = svg_space_group.attrs['class'][1]
+
+    # calculate center point of room bounding box
     def _get_center_point(self) -> Tuple[float, float]:
         return (mean([p[0] for p in self.points]), mean([p[1] for p in self.points]))
 
+    # convert back to svg tag
     def to_svg_polygon(self) -> 'Tag':
         plg_attrs = {'fill' : 'none', 'stroke-width' : 5}
         plg_attrs['points'] = ' '.join(['{},{}'.format(p[0], p[1]) for p in self.points])
         plg_attrs['stroke'] = room_colors.get(self.type, 'grey')
         return Tag('polygon', plg_attrs)
     
+    # represent as polygon to apply intersection calculations
     def to_shapely_polygon(self) -> Polygon:
         return Polygon(self.points)
     
+    # get doors who overlap with this room
     def get_adjacent_doors(self, doors: List['Door']) -> None:
         room = self.to_shapely_polygon()
         for d in doors:
             if room.intersection(d.to_shapely_polygon().buffer(1.0)).area > 10.0:
                 self.adjacent_doors.add(d.name)
 
-
+"""
+object to represent Doors from the floorplan SVG
+"""
 class Door:
 
-    def __init__(self, svg_space_group: bs4Tag, idx: int):
-        self.points = get_points_from_svg_group(svg_space_group)
+    def __init__(self, svg_door_group: bs4Tag, idx: int):
+        self.points = get_points_from_svg_group(svg_door_group)
         self.name = 'Door_{}'.format(idx + 1)
-        
+
+        self.center_point = self.get_center_point()
+
+    # get center of door bounding box
+    def get_center_point(self) -> Tuple[float, float]:
+        return (mean([p[0] for p in self.points]), mean([p[1] for p in self.points]))
+    
+    # convert back to original SVG format
     def to_svg_polygon(self) -> 'Tag':
         plg_attrs = {'fill' : 'none','stroke' : 'black', 'stroke-width' : 5}
         plg_attrs['points'] = ' '.join(['{},{}'.format(p[0], p[1]) for p in self.points])
         return Tag('polygon', plg_attrs)
 
+    # convert to polygon for overlap check
     def to_shapely_polygon(self) -> Polygon:
         return Polygon(self.points)
 
-
+"""
+object to represent one full SVG floorplan
+"""
 class Plan:
 
-    def __init__(self, svg: bs4Tag):
+    def __init__(self, soup: bs4Tag):
+        svg = soup.find('svg')
+
         self.rooms = [] # parse from svg
         self.name2room = {}
         self.name2index = {}
@@ -175,6 +211,7 @@ class Plan:
         self.door_count = 0
         self.svg_dimension = (svg.attrs['height'], svg.attrs['width'])
 
+        # extract all rooms in this floor plan
         for r in svg.find_all('g', attrs={'class': 'Space'}):
             room = Room(r, self.room_type_count)
             self.rooms.append(room)
@@ -182,6 +219,7 @@ class Plan:
         
         self.room_names = self.name2room.keys()
 
+        # extract all doors in this floor plan
         for d in svg.find_all('g', attrs={'class': 'Threshold'}):
             door = Door(d, self.door_count)
             self.doors.append(door)
@@ -190,21 +228,27 @@ class Plan:
         
         self.name2index = {name : i for i, name in enumerate(self.name2room)}
 
+    # extract edges based on overlaps
     def generate_room_relation(self) -> None:
         for room in self.rooms:
-            room.get_adjacent_doors(self.doors)
+            room.get_adjacent_doors(self.doors) # calculate intersecting doors
         
+        # get edges for all room pairs
         for i in range(len(self.rooms)):
             for j in range(i+1, len(self.rooms)):
                 room1 = self.rooms[i]
                 room2 = self.rooms[j]
                 if room1.to_shapely_polygon().buffer(1.0).intersection(room2.to_shapely_polygon().buffer(1.0)).area > 5.0:
+                    # room to room relation
                     self.relation.append((room1.name, 1, room2.name))
                 elif room1.adjacent_doors.intersection(room2.adjacent_doors):
+                    # rooms joined by doors
                     self.relation.append((room1.name, 2, room2.name))
                 else:
+                    # rooms have no edge
                     self.relation.append((room1.name, 0, room2.name))
 
+    # convert relations to adjacency list
     def get_adjacency_list(self) -> dict:
         relation_adj_list = {name : {} for name in self.name2room}
         for name1, label, name2 in self.relation:
@@ -213,6 +257,7 @@ class Plan:
                 relation_adj_list[name2][name1] = label
         return relation_adj_list
 
+    # convert relations to adjacency matrix
     def get_adjacency_matrix(self) -> list:
         relation_adj_matrix = [[0 for name in self.name2room] for name in self.name2room]
         for name1, label, name2 in self.relation:
@@ -221,6 +266,7 @@ class Plan:
                 relation_adj_matrix[self.name2index[name2]][self.name2index[name1]] = label
         return relation_adj_matrix
 
+    # represent relations in SVG format
     def generate_relation_svg(self) -> 'Tag':
         attrs = {
             'xmlns' : 'http://www.w3.org/2000/svg', 
@@ -273,6 +319,7 @@ class Plan:
 
         return svg
 
+    # get single source shortest paths
     def shortest_paths_from_one_room(self, start: str) -> Dict[str, List[List[str]]]:
         adjacency_list = self.get_adjacency_list()
         queue = Queue()
@@ -293,9 +340,11 @@ class Plan:
                         queue.put(new_path)
         return result
     
+    # single source, single destination shortest path
     def shortest_paths_between_two_rooms(self, start: str, end: str) -> List[List[str]]:
         return self.shortest_paths_from_one_room(start)[end]
 
+    # graph diameter from single source
     def get_depth_from_one_room(self, start: str) -> int:
         adjacency_list = self.get_adjacency_list()
         queue = Queue()
@@ -311,5 +360,6 @@ class Plan:
                     visited.add(adjacent_room)
         return max_depth
 
+    # overall graph diameter
     def get_depth(self) -> int:
         return max(self.get_depth_from_one_room(room) for room in self.room_names)
