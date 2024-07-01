@@ -2,6 +2,9 @@
 
 This repository addresses the problem of creating a map representation of indoor spaces from indoor floorplans. It implements a multi-stage pipeline which takes a PNG image of an indoor floorplan (originally a CAD dwg file which has been exported to a PNG image) as input and attempts to output a graph structure that reasonably represents the indoor floorplan. This implementation was originally created as part of Huda Baig's Undergraduate Senior Thesis at Carnegie Mellon University in Qatar and then continued by a separate research team at Carnegie Mellon University in Qatar as part of a larger indoor navigation research project.
 
+## Current Status
+The project obtains all area and connectivity nodes by reading added text labels in floor plan images. It relies on splitting connective areas into multiple labels. Door nodes are then inferred with fluctuating accuracy through a door detection model. Edges are inferred with different closeness metrics with varying accuracy.
+
 ## Dependencies
 
 ### Python Version
