@@ -46,7 +46,10 @@ def generate_image(bbox, image):
         try:
             word = crop(bbox, image)
             color_coverted = cv2.cvtColor(word, cv2.COLOR_BGR2GRAY)
-
+            # cv2.imshow('Result', color_coverted)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
             return Image.fromarray(color_coverted).convert('L') 
-        except:
+        except Exception as e:
+            print(e)
             return None

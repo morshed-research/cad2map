@@ -68,7 +68,7 @@ def make_edge(G, params, node_objs):
     n1 = node_objs[id1]
     n2 = node_objs[id2]
 
-    G.nx_graph.add_edge(n1, n2)
+    G.add_edge(n1, n2)
 
 """
 converts the JSON file at the given path into 
@@ -201,10 +201,10 @@ def to_IL_graph(G1, G2):
         id += 1 # continue same id
 
     # process edges based on new labels
-    for (n1, n2) in G1.nx_graph.edges:
+    for (n1, n2) in G1.get_edges():
         IL_1.add_edge(G1_map[n1], G1_map[n2])
 
-    for (n1, n2) in G2.nx_graph.edges:
+    for (n1, n2) in G2.get_edges():
         IL_2.add_edge(G2_map[n1], G2_map[n2])
 
     return IL_1, IL_2

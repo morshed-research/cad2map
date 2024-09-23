@@ -74,7 +74,7 @@ class ImageSliceDetectionDataset:
     def create_deterministic_crop_transforms(self, slice_corners):
         return [
             A.Crop(*slice_corners),
-            A.PadIfNeeded(self.slice_height, self.slice_width, border_mode=0),
+            A.PadIfNeeded(self.slice_height, self.slice_width),
         ]
 
     def __getitem__(self, index):

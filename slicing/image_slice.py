@@ -92,7 +92,7 @@ returns
     dataframe with width and heights, pd.DataFrame
 """
 def get_image_sizes_df(images_path, file_names):
-    pool = Pool(processes=len(os.sched_getaffinity(0)))
+    pool = Pool()
     image_sizes = pool.map(partial(get_image_size, images_path=images_path), file_names)
     sizes_df = pd.DataFrame(image_sizes)
     return sizes_df

@@ -9,7 +9,7 @@ connective = label_list().connective
 
 """
 creates an edge between every door node and the nearest 
-connective area if the door node has less than two edges
+connective area.
 
 parameters
 - G: graph to add edges in, graph
@@ -19,14 +19,13 @@ returns
     graph with new edges, graph
 """
 def door_to_connective(G):
-    all_nodes = list(G.nx_graph.nodes())
-
     # each type of nodes
-    doors = [n for n in all_nodes if n.type == "door"]
-    nodes = [n for n in all_nodes if n.type == "connective"]
+    doors = G.get_door_nodes() 
+    nodes = G.get_connective_nodes()
+    gates = G.get_gate_nodes()
     
-    for d in doors: # go over all door nodes
-        # if len(G.nx_graph.edges(d)) > 1:
+    for d in (doors + gates): # go over all door nodes
+        # if len(G.get_edges()(d)) > 1:
         #     continue 
         
         distances = {}
@@ -40,7 +39,7 @@ def door_to_connective(G):
         if len(distances) > 0:
             key = min(distances.keys())
             closest = distances[key]
-            G.nx_graph.add_edge(d, closest)
+            G.add_edge(d, closest)
     
     return G
 
@@ -78,7 +77,7 @@ def radial_edges(G, n=1):
             
             key = min(distances.keys())
             closest = distances[key]
-            G.nx_graph.add_edge(n1, closest)
+            G.add_edge(n1, closest)
 
             distances.pop(key)
 

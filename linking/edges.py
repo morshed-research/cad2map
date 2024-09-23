@@ -16,7 +16,7 @@ returns
     graph with new edges, graph
 """
 def door_edges(G):
-    all_nodes = list(G.nx_graph.nodes())
+    all_nodes = list(G.get_nodes())
     doors = [n for n in all_nodes if n.type == "door"]
     nodes = [n for n in all_nodes if n.type == "area"]
 
@@ -29,6 +29,6 @@ def door_edges(G):
 
         key = min(distances.keys())
         closest = distances[key]
-        G.nx_graph.add_edge(n, closest)
+        G.add_edge(n, closest)
 
     return G

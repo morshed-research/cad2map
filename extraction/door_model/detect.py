@@ -16,8 +16,12 @@ from matplotlib import pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 root = os.path.dirname(__file__) + "/../"
+device = torch.device("cuda" 
+    if torch.cuda.is_available() else "mps" 
+    if torch.backends.mps.is_available() and torch.backends.mps.is_built()
+    else "cpu"
+)
 
 """
 applies transformations for image to be passed into detection model
@@ -136,7 +140,9 @@ def detection_model(weights_pth):
     num_classes = 2  # 1 classes + background
 
     # set up FasterRCNN model
-    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(min_size=300, max_size=480, weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
+    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(min_size=300,
+        max_size=480, weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT
+    )
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     model.to(device)

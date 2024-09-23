@@ -30,35 +30,36 @@ parameters
 returns
     dataframe with columnx 'bbox' 'pred_words' 'confidence_score', pd.DataFrame
 """
-def get_rooms(image_path: str, 
-              result_folder: str=root + "results/",
-              weights=root + "model_weights/craft_mlt_25k.pth",
-              vgg=root + "model_weights/None-VGG-BiLSTM-CTC.pth"):
+def get_rooms(image_path: str, detect_model_args, detect_model, interp_model, 
+              result_folder: str=root + "results/",):
+    
     # make result folder if doesn't exist
     if not os.path.isdir(result_folder):
         os.mkdir(result_folder)
     
-    # get all text bounding boxes
-    bboxes = get_bboxes(image_path, weights, result_folder)
-    
-    # open image as cv2 image
+    # open image as cv2 image and create DataFame
     image = cv2.imread(image_path)
-
-    # set up arguments for model
-    opt = prep_read_labels("None","VGG","BiLSTM","CTC", vgg)
-    
     df=pd.DataFrame(columns=['bbox', 'pred_words', 'confidence_score'])
 
+    # get all text bounding boxes
+    bboxes = get_bboxes(image_path, detect_model_args, detect_model, result_folder)
+
+    # Detect text within each bounding box
+    failed_labels = []
     for i in range(len(bboxes)):
         # crop to label only
         img = generate_image(bboxes[i], image)
 
         if img == None: # failed to crop, e.g. empty box
-            print(f"failed on box {i}/{len(bboxes)}\n")
+            failed_labels.append(bboxes[i])
+            # print(f"failed on box {i}/{len(bboxes)}\n")
         else:
-            pred, score = interpret_labels(opt, img) # get label inference
+            pred, score = interpret_labels(interp_model, img) # get label inference
             df.loc[i] = [bboxes[i], pred, score]
 
+    # if failed_labels:
+        # print('Failed Labels:', failed_labels)
+    
     return df.reset_index(drop=True)
 
 """
@@ -79,13 +80,17 @@ def make_nodes(df):
         coords = df['bbox'][i] # get each bounding box
 
         # min and max coordinates
-        (x1, y1) = coords[0]
-        (x2, y2) = coords[2]
+        (x1, y1) = coords[0] # bottom-left
+        (x2, y2) = coords[2] # top-right
 
         center = ((x1 + x2) // 2, (y1 + y2) // 2)
         label = df['pred_words'][i].lower()
 
         # add as area node
-        G.add_node(node(id=G.next_id, area=label, coord=center))
+        node_i = node(id=G.next_id)
+        node_i.set_coordinates(center[0], center[1])
+        node_i.set_label(label)
+        node_i.set_bbox(coords[0], coords[1])
+        G.add_node(node_i)
 
     return G

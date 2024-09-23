@@ -62,7 +62,7 @@ def bbox_parser(trained_model=(os.path.dirname(__file__) + '/../model_weights/cr
     parser.add_argument('--canvas_size', default=1280, type=int, help='image size for inference')
     parser.add_argument('--mag_ratio', default=1.5, type=float, help='image magnification ratio')
     parser.add_argument('--poly', default=False, action='store_true', help='enable polygon type')
-    parser.add_argument('--show_time', default=True, action='store_true', help='show processing time')
+    parser.add_argument('--show_time', default=False, action='store_true', help='show processing time')
     parser.add_argument('--refine', default=False, action='store_true', help='enable link refiner')
     parser.add_argument('--refiner_model', default='weights/craft_refiner_CTW1500.pth', type=str, help='pretrained refiner model')
 
@@ -131,24 +131,19 @@ parameters
 returns
     list of bounding boxes, (int32 * int32) list
 """
-def get_bboxes(floorplan, 
-               trained_model=(os.path.dirname(__file__) + '/../model_weights/craft_mlt_25k.pth'), 
+def get_bboxes(floorplan,
+               args,
+               detect_model, 
                result_folder=(os.path.dirname(__file__) + '/../results/'), 
                save_intermediate=False):
-    if not isinstance(trained_model, str)or not isinstance(floorplan, str): 
-        raise TypeError("all arguments must be strings")
 
-    # prep parser and model
-    args = bbox_parser(trained_model)
-    net, refine_net = set_model(args)
-
-    t = time.time()
-
-    # run model on image
-    print("floor plan image {:s}".format(floorplan))
     image = imgproc.loadImage(floorplan)
 
-    bboxes, polys, score_text, det_scores = test.test_net(net, image, args.text_threshold, args.link_threshold, args.low_text, args.cuda, args.poly, args, refine_net)
+    # run model on image
+    bboxes, polys, score_text, det_scores = test.test_net(
+        detect_model, image, args.text_threshold, args.link_threshold,
+        args.low_text, args.cuda, args.poly, args
+    )
 
     # save score text
     if save_intermediate:
@@ -158,5 +153,4 @@ def get_bboxes(floorplan,
         file_utils.saveResult(floorplan, image[:,:,::-1], polys, dirname=result_folder)
 
     # return bounding boxes
-    print("elapsed time for bboxes: {}s\n".format(time.time() - t))
     return bboxes.astype('int32') if len(bboxes) != 0 else bboxes

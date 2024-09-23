@@ -9,3 +9,7 @@ GMatch4py/
 results/basic-pipe.png
 results/basic.png
 test.py
+.DS_Store
+data/.DS_Store
+results/.DS_Store
+venv/

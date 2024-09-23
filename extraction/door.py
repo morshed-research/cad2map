@@ -24,7 +24,13 @@ def make_doors(door_df, G):
         x1, y1, x2, y2 = row["xmin"], row["ymin"], row["xmax"], row["ymax"]
 
         center = ((x1 + x2) // 2, (y1 + y2) // 2)
-        G.add_node(node(id=G.next_id, area="Door", coord=center, type="door"))
+
+        node_i = node(id=G.next_id)
+        node_i.set_coordinates(center[0], center[1])
+        node_i.set_type("door")
+        node_i.set_label("Door")
+        node_i.set_bbox((x1,y1), (x2,y2))
+        G.add_node(node_i)
 
     return G
 
@@ -43,13 +49,11 @@ returns
     dataframe of door bounding boxes with columns 
     'xmin' 'ymin' 'xmax' 'ymax', pd.DataFrame
 """
-def door_boxes(image_path, weights_pth=root + "model_weights/door_mdl_32.pth", 
-               thresh=0):
-    model = detection_model(weights_pth)
+def door_boxes(image_path, door_model, thresh=0):
 
     # transform and infer
     img = img_transform(cv2.imread(image_path))
-    boxes, scores, labels = inference(img, model, detection_threshold=thresh)
+    boxes, scores, labels = inference(img, door_model, detection_threshold=thresh)
 
     # make dataframe from found boxes
     return pd.DataFrame(boxes, columns=["xmin","ymin","xmax","ymax"])
