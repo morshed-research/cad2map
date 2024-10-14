@@ -73,6 +73,7 @@ def pipeline(image_name, slice_csv=""):
 
         # get doors
         door_df = door_boxes(image_path, door_model, thresh=0.5)
+        print(door_df)
         local_G = make_doors(door_df, local_G)
 
         # add to global graph with corrected coordinate position

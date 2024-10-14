@@ -294,7 +294,10 @@ def segment_hallways_fill(G, image_path, segmented_areas):
                 if start_point not in hallways:
                     hallway_coords = flood_fill(image, start_point)
                     hallways.update(hallway_coords)
-                G.add_edge(area_node, door_node)
+                try:
+                    G.add_edge(area_node, door_node)
+                except:
+                    pass
         else:
             connective_entrance_doors.append(door_node)
 
